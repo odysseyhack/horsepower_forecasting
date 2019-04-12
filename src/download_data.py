@@ -22,9 +22,9 @@ def download_year(year, prognosis):
         consumption_url = BASE_URL + f'consumption-{args.region}-areas_{year}_{args.frequency}.xls'
 
     print(f'...downloading from {production_url}')
-    wget.download(production_url, '../data/')
+    wget.download(production_url, '../data/raw/')
     print(f'...downloading from {consumption_url}')
-    wget.download(consumption_url, '../data/')
+    wget.download(consumption_url, '../data/raw/')
 
     return None
 
