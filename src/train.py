@@ -79,8 +79,8 @@ def convert_to_df(data_frame, history, forecast):
     return X_df, y_df
 
 
-def build_model(n_timesteps, n_features, n_outputs):
-    model = Sequential(); model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, n_features)))
+def build_model(n_timesteps, n_outputs):
+    model = Sequential(); model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, 1)))
     model.add(RepeatVector(n_outputs)); model.add(LSTM(200, activation='relu', return_sequences=True))
     model.add(TimeDistributed(Dense(100, activation='relu'))); model.add(TimeDistributed(Dense(50, activation='relu')))
     model.add(TimeDistributed(Dense(1)))
