@@ -45,20 +45,11 @@ def scale_data(train, test, scaler_pathprefix):
 
 # convert history into inputs and outputs
 def to_supervised(data_arr, n_input=48, n_out=24):
-    X, y = list(), list()
-    in_start = 0
-    # step over the entire history one time step at a time
+    X, y, in_start = list(), list(), 0
     for _ in range(len(data_arr)):
-        # define the end of the input sequence
-        in_end = in_start + n_input
-        out_end = in_end + n_out
-        # ensure we have enough data for this instance
-        target_index = 0 # train.columns.get_loc("MO_Fahrpedalrohwert_01")
+        in_end, out_end, target_index = in_start + n_input, in_end + n_out, 0
         if out_end < len(data_arr):
-            X.append(data_arr[in_start:in_end, :])
-            y.append(data_arr[in_end:out_end, target_index])
-        # move along one time step
-        in_start += 1
+            X.append(data_arr[in_start:in_end, :]); y.append(data_arr[in_end:out_end, target_index]); in_start += 1
     return np.array(X), np.array(y)
 
 def drop_nans_from_data(X, y):
