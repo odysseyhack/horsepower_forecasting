@@ -1,32 +1,9 @@
-import h5py
-import pandas as pd
-import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import Dropout
-from keras.layers import LSTM, GRU
-from keras.layers import RepeatVector
-from keras.layers import TimeDistributed
-from keras.optimizers import Adam, Adadelta
-from keras.callbacks import ReduceLROnPlateau
-from keras_contrib.callbacks import CyclicLR
-import matplotlib.pyplot as plt
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import MinMaxScaler
-from keras.callbacks import ModelCheckpoint
-import keras
-import re
-import yaml
-import gc
-from sklearn.externals import joblib
-from preprocess_data import production, consumption
-
-HISTORY = 120
-FORECAST = 1
-VERBOSE = 1
-EPOCHS = 100
-BATCH_SIZE = 1024
-RESAMPLE_FREQ = 20
+import pandas as pd; import numpy as np
+from keras.models import Sequential; from keras.optimizers import Adam
+from keras.layers import Dense, LSTM, RepeatVector, TimeDistributed
+from keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
+from sklearn.preprocessing import MinMaxScaler; from preprocess_data import production, consumption
+HISTORY, FORECAST, VERBOSE, EPOCHS, BATCH_SIZE = 120, 1, 1, 100, 124
 
 def split_data(df, ratio=0.7):
     X, y = df[:int(len(df)*ratio)], df[int(len(df)*ratio):]
