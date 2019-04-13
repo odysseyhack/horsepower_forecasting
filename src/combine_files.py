@@ -1,13 +1,13 @@
 from glob2 import glob
 import pandas as pd
 import os
-
+from tqdm import tqdm
 
 def preprocess_data(df):
     features = [col for col in df.columns if 'SE' in col]
     df['Date'] = df['Date'] + '-' + df['Hours'].apply(lambda x: x[:2])
     df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y-%H')
-    return df[features]
+    return df[features + ['Date']]
 
 
 def read_xls(path):
@@ -34,7 +34,6 @@ def test_preprocessing():
 
 if __name__ == '__main__':
     test_preprocessing()
-    for pattern in ['production-se', 'production-prog',
-                    'consumption-se', 'consumption-prog'
-                    ]:
+    for pattern in tqdm(['production-se', 'production-prog',
+                         'consumption-se', 'consumption-prog']):
         preprocess_and_save(pattern)
