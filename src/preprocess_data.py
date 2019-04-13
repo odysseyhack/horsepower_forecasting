@@ -19,26 +19,18 @@ def merge_data(production, consumption):
 
 
 def group_freq(df, freq):
-    if freq == 'H':
-        return df.groupby(df.index.hour).mean()
-    if freq == 'D':
-        return df.groupby(df.index.day).mean()
-    if freq == 'M':
-        return df.groupby(df.index.month).mean()
-    if freq == 'Y':
-        return df.groupby(df.index.year).mean()
-    if freq == 'WD':
-        return df.groupby(df.index.dayofweek).mean()
+    if freq == 'H':return df.groupby(df.index.hour).mean()
+    if freq == 'D':return df.groupby(df.index.day).mean()
+    if freq == 'M':return df.groupby(df.index.month).mean()
+    if freq == 'Y':return df.groupby(df.index.year).mean()
+    if freq == 'WD':return df.groupby(df.index.dayofweek).mean()
 
 
-def visualize(prod, cons, freq=None):
-    if freq:
-        assert freq in ['H', 'D', 'M', 'Y', 'WD'], "frequency should be in ['H', 'D', 'M', 'Y', 'WD']"
-        prod = group_freq(prod, freq)
-        cons = group_freq(cons, freq)
+def visualize(prod, cons):
     prod = prod.hvplot.line(color='green', label='production')
     cons = cons.hvplot.line(color='red', label='consumption')
     return (prod * cons).opts(width=800, height=600)
+
 
 production = read_data('../data/processed/production.csv')
 consumption = read_data('../data/processed/consumption.csv')

@@ -44,7 +44,7 @@ def get_in_out_tgtidx(in_start):
     return in_end, out_end, 0
 
 # convert history into inputs and outputs
-def to_supervised(data_arr,):
+def to_supervised(data_arr):
     X, y, in_start = list(), list(), 0
     for _ in range(len(data_arr)):
         in_end, out_end, target_index = get_in_out_tgtidx(in_start)
@@ -60,13 +60,11 @@ def drop_nans_from_data(X, y):
 
     return temp_df[train_cols], temp_df[target_cols]
 
-def convert_to_df(data_frame, history, forecast):
-    X, y = to_supervised(data_frame.values, history, forecast)
-    X_cols = [str(col)+f'(t-{i})' for i in range(history-1, -1, -1) for col in data_frame.columns]
-    y_cols = [f'true_future(t+{i+1})' for i in range(forecast)]
-    X_df = pd.DataFrame(X.reshape(-1, len(data_frame.columns)*history), columns=X_cols)
-    y_df = pd.DataFrame(y, columns=y_cols)
-    return X_df, y_df
+def convert_to_df(data_frame):
+    X, y = to_supervised(data_frame.values)
+    X_cols = [str(col)+f'(t-{i})' for i in range(120-1, -1, -1) for col in data_frame.columns]
+    y_cols = [f'true_future(t+{i+1})' for i in range(1)]
+    return pd.DataFrame(X.reshape(-1, len(data_frame.columns)*120), columns=X_cols), pd.DataFrame(y, columns=y_cols)
 
 
 def build_model(n_timesteps, n_outputs):
